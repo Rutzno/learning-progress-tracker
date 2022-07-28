@@ -2,6 +2,12 @@ package com.diarpy;
 
 import java.util.Scanner;
 
+/**
+ * @author Mack_TB
+ * @since 24/06/2022
+ * @version 1.0.1
+ */
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Learning Progress Tracker");
