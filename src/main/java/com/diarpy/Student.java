@@ -14,7 +14,7 @@ public class Student {
     private String firstName;
     private String lastName;
     private String email;
-    private final Map<String, Integer> courses;
+    private final Map<Course, Integer> courses;
     private static int numStudents;
 
     static {
@@ -35,11 +35,24 @@ public class Student {
                 System.out.println("Incorrect points format.");
                 return false;
             }
-            courses.put("Java", courses.getOrDefault("Java", 0) + notes[0]);
-            courses.put("DSA", courses.getOrDefault("DSA", 0) + notes[1]);
-            courses.put("Databases", courses.getOrDefault("Databases", 0) + notes[2]);
-            courses.put("Spring", courses.getOrDefault("Spring", 0) + notes[3]);
+           /* for (int n : notes) {
+                if (n < 0) {
+                    System.out.println("Incorrect points format.");
+                    return;
+                }
+            }*/
+            int i = 0;
+            for (Course course : Main.courseMap.values()) {
+                if (notes[i] != 0) {
+                    course.setActivityCount(course.getActivityCount() + 1);
+                    course.getStudents().add(this);
+                }
+                int note = courses.getOrDefault(course, 0) + notes[i];
+                courses.put(course, note);
+                i++;
+            }
             return true;
+
         } catch (Exception e) {
             System.out.println("Incorrect points format.");
             return false;
@@ -78,7 +91,7 @@ public class Student {
         this.email = email;
     }
 
-    public Map<String, Integer> getCourses() {
+    public Map<Course, Integer> getCourses() {
         return courses;
     }
 
