@@ -200,7 +200,6 @@ public class Main {
                 for (Student student : students) {
                     float p = (float) student.getCourses().get(course) / course.getPoints() * 100;
                     BigDecimal bd = new BigDecimal(p).setScale(1, RoundingMode.HALF_UP);
-//                    String df = new DecimalFormat("#.#").format(bd);
                     String strNum = String.format("%.1f", bd).replace(",", ".");
                     System.out.printf("%d\t%d\t\t%s%%\n", student.getID(), student.getCourses().get(course), strNum);
                 }
