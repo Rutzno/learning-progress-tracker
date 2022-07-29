@@ -40,7 +40,6 @@ public class Student {
             courses.put("Databases", courses.getOrDefault("Databases", 0) + notes[2]);
             courses.put("Spring", courses.getOrDefault("Spring", 0) + notes[3]);
             return true;
-
         } catch (Exception e) {
             System.out.println("Incorrect points format.");
             return false;
