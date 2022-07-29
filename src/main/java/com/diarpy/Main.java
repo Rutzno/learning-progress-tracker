@@ -1,14 +1,13 @@
 package com.diarpy;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 /**
  * @author Mack_TB
  * @since 24/06/2022
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 public class Main {
@@ -16,10 +15,23 @@ public class Main {
     static String nameRegex = "[A-Za-z\\s]+([A-Za-z]|[-'][A-Za-z])+";
     static String emailRegex = "[a-z.\\d]+@[a-z\\d]+\\.[a-z\\d]+";
     static Map<String, Student> studentMap = new LinkedHashMap<>();
+    static Map<String, Course> courseMap = new LinkedHashMap<>();
 
     public static void main(String[] args) {
         System.out.println("Learning Progress Tracker");
+        createCourses();
         processCommand();
+    }
+
+    private static void createCourses() {
+        Course course1 = new Course("Java", 600);
+        Course course2 = new Course("DSA", 400);
+        Course course3 = new Course("Databases", 480);
+        Course course4 = new Course("Spring", 550);
+        courseMap.put("Java", course1);
+        courseMap.put("DSA", course2);
+        courseMap.put("Databases", course3);
+        courseMap.put("Spring", course4);
     }
 
     public static void processCommand() {
@@ -34,6 +46,8 @@ public class Main {
                 addPoints();
             } else if (input.equals("find")) {
                 findStudent();
+            } else if (input.equalsIgnoreCase("statistics")) {
+                statistics();
             }  else if (input.equalsIgnoreCase("exit")) {
                 System.out.println("Bye!");
                 break;
@@ -60,10 +74,11 @@ public class Main {
                 Student student = studentMap.get(id);
                 System.out.printf("%s points: Java=%d; DSA=%d; Databases=%d; Spring=%d\n",
                         id,
-                        student.getCourses().get("Java"),
-                        student.getCourses().get("DSA"),
-                        student.getCourses().get("Databases"),
-                        student.getCourses().get("Spring"));
+                        student.getCourses().get(courseMap.get("Java")),
+                        student.getCourses().get(courseMap.get("DSA")),
+                        student.getCourses().get(courseMap.get("Databases")),
+                        student.getCourses().get(courseMap.get("Spring"))
+                );
             }
         }
     }
@@ -158,5 +173,148 @@ public class Main {
         }
         return false;
     }
-}
 
+    private static void statistics() {
+        System.out.println("Type the name of a course to see details or 'back' to quit:");
+        System.out.println("Most popular: " + mostPopular());
+        System.out.println("Least popular: " + leastPopular());
+        System.out.println("Highest activity: " + highestActivity());
+        System.out.println("Lowest activity: " + lowestActivity());
+        System.out.println("Easiest course: " + easiestCourse());
+        System.out.println("Hardest course: " + hardestCourse());
+        while (true) {
+            String courseName = scanner.nextLine();
+            if (courseName.equals("back")) {
+                break;
+            }
+            courseName = containsKey(courseName);
+            if (!courseMap.containsKey(courseName)) {
+                System.out.println("Unknown course.");
+            } else {
+                Course course = courseMap.get(courseName);
+                List<Student> students = new ArrayList<>(course.getStudents());
+                students.sort(Comparator.comparing((Student student1) -> student1.getCourses().get(course))
+                        .reversed()
+                        .thenComparing(Student::getID)
+                );
+                System.out.println(courseName);
+                System.out.println("id\t\tpoints\tcompleted");
+                for (Student student : students) {
+                    float p = (float) student.getCourses().get(course) / course.getPoints() * 100;
+                    BigDecimal bd = new BigDecimal(p).setScale(1, RoundingMode.HALF_UP);
+//                    String df = new DecimalFormat("#.#").format(bd);
+                    String strNum = String.format("%.1f", bd).replace(",", ".");
+                    System.out.printf("%d\t%d\t\t%s%%\n", student.getID(), student.getCourses().get(course), strNum);
+                }
+            }
+        }
+    }
+
+    private static String containsKey(String courseName) {
+        for (String name : courseMap.keySet()) {
+            if (name.equalsIgnoreCase(courseName)) {
+                return name;
+            }
+        }
+        return "";
+    }
+
+    private static String getResult(StringBuilder result, List<Course> courses, int m) {
+        for (Course course : courses) {
+            if (course.enrolledStudentsCount() == m) {
+                result.append(course.getName()).append(", ");
+            }
+        }
+        if (result.length() >= 2) {
+            result.delete(result.length()-2, result.length());
+        }
+        return result.length() != 0 ? result.toString() : "n/a";
+    }
+
+    // enrolled students >
+    private static String mostPopular() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::enrolledStudentsCount));
+        int max = courses.get(courses.size() - 1).enrolledStudentsCount();
+        if (max == 0) return "n/a";
+        return getResult(result, courses, max);
+    }
+
+    // enrolled students < 0
+    private static String leastPopular() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::enrolledStudentsCount));
+        int min = courses.get(0).enrolledStudentsCount();
+        int max = courses.get(courses.size() - 1).enrolledStudentsCount();
+        if (min == max) return "n/a";
+        return getResult(result, courses, min);
+    }
+
+    private static String getResultActivity(StringBuilder result, List<Course> courses, int m) {
+        for (Course course : courses) {
+            if (course.getActivityCount() == m) {
+                result.append(course.getName()).append(", ");
+            }
+        }
+        if (result.length() >= 2) {
+            result.delete(result.length()-2, result.length());
+        }
+        return result.length() != 0 ? result.toString() : "n/a";
+    }
+
+    // number of submissions >
+    private static String highestActivity() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::getActivityCount));
+        int max = courses.get(courses.size() - 1).getActivityCount();
+        if (max == 0) return "n/a";
+        return getResultActivity(result, courses, max);
+    }
+
+    // submissions < 0
+    private static String lowestActivity() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::getActivityCount));
+        int min = courses.get(0).getActivityCount();
+        int max = courses.get(courses.size() - 1).getActivityCount();
+        if (min == max) return "n/a";
+        return getResultActivity(result, courses, min);
+    }
+
+    private static String getResultAverageScore(StringBuilder result, List<Course> courses, double m) {
+        for (Course course : courses) {
+            if (course.averageScore() == m) {
+                result.append(course.getName()).append(", ");
+            }
+        }
+        if (result.length() >= 2) {
+            result.delete(result.length()-2, result.length());
+        }
+        return result.length() != 0 ? result.toString() : "n/a";
+    }
+
+    // average score >
+    private static String easiestCourse() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::averageScore));
+        double max = courses.get(courses.size() - 1).averageScore();
+        if (max == 0) return "n/a";
+        return getResultAverageScore(result, courses, max);
+    }
+
+    // average score <
+    private static String hardestCourse() {
+        StringBuilder result = new StringBuilder();
+        List<Course> courses = new ArrayList<>(courseMap.values());
+        courses.sort(Comparator.comparing(Course::averageScore));
+        double min = courses.get(0).averageScore();
+        double max = courses.get(courses.size() - 1).averageScore();
+        if (min == max) return "n/a";
+        return getResultAverageScore(result, courses, min);
+    }
+}
