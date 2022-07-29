@@ -27,10 +27,6 @@ public class Course {
         return students.size();
     }
 
-    /*public int activityCount() {
-        return 0;
-    }*/
-
     public double averageScore() {
         int sum = 0;
         for (Student student : students) {
