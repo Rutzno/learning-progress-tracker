@@ -3,6 +3,12 @@ package com.diarpy;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * @author Mack_TB
+ * @since 24/06/2022
+ * @version 1.0.4
+ */
+
 public class Student {
     private int ID;
     private String firstName;
