@@ -1,5 +1,11 @@
 package com.diarpy;
 
+/**
+ * @author Mack_TB
+ * @since 24/06/2022
+ * @version 1.0.5
+ */
+
 public class Message {
     private String to;
     private String from;
