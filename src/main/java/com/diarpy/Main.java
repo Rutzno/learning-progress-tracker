@@ -44,7 +44,7 @@ public class Main {
                 addStudent();
             } else if (input.equalsIgnoreCase("list")) {
                 list();
-            } else if (input.equals("add points")) {
+            } else if (input.equalsIgnoreCase("add points")) {
                 addPoints();
             } else if (input.equals("find")) {
                 findStudent();
