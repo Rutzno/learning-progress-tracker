@@ -1,13 +1,9 @@
 package com.diarpy;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-/**
- * @author Mack_TB
- * @since 24/06/2022
- * @version 1.0.4
- */
 
 public class Course {
     private String name;
@@ -26,6 +22,10 @@ public class Course {
     public int enrolledStudentsCount() {
         return students.size();
     }
+
+    /*public int activityCount() {
+        return 0;
+    }*/
 
     public double averageScore() {
         int sum = 0;
