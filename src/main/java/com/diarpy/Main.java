@@ -130,7 +130,6 @@ public class Main {
                 System.out.println("Incorrect credentials.");
                 continue;
             }
-
             String firstName = tab[0];
             String email = tab[tab.length - 1];
             String lastName = credentials.substring(credentials.indexOf(" ") + 1, credentials.indexOf(email)-1);
