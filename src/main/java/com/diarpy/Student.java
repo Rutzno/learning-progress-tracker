@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Mack_TB
  * @since 24/06/2022
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 public class Student {
