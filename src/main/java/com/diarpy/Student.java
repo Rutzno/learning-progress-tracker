@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Mack_TB
  * @since 24/06/2022
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 public class Student {
@@ -44,11 +44,18 @@ public class Student {
             int i = 0;
             for (Course course : Main.courseMap.values()) {
                 if (notes[i] != 0) {
-                    course.setActivityCount(course.getActivityCount() + 1);
                     course.getStudents().add(this);
+                    int note = courses.getOrDefault(course, 0) + notes[i];
+                    if (note <= course.getPoints()) {
+                        course.setActivityCount(course.getActivityCount() + 1);
+                        courses.put(course, note);
+                        if (note == course.getPoints()) {
+                            triggerMessage(course);
+                        }
+                    } else /*if (note > course.getPoints())*/ {
+                        System.out.printf("You have already accomplished this %s course", course.getName());
+                    }
                 }
-                int note = courses.getOrDefault(course, 0) + notes[i];
-                courses.put(course, note);
                 i++;
             }
             return true;
@@ -57,6 +64,13 @@ public class Student {
             System.out.println("Incorrect points format.");
             return false;
         }
+    }
+
+    private void triggerMessage(Course course) {
+        String content = String.format("Hello, %s %s! You have accomplished our %s course!",
+                firstName, lastName, course.getName());
+        Message message = new Message(email, "Your Learning Progress", content);
+        Main.messageList.add(message);
     }
 
     public int getID() {
