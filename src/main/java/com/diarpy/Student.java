@@ -14,7 +14,7 @@ public class Student {
     private String firstName;
     private String lastName;
     private String email;
-    private Map<String, Integer> courses = new LinkedHashMap<>();
+    private final Map<String, Integer> courses;
     private static int numStudents;
 
     static {
@@ -26,6 +26,7 @@ public class Student {
         this.lastName = lastName;
         this.email = email;
         ID = ++numStudents;
+        courses = new LinkedHashMap<>();
     }
 
     public boolean grade(int... notes) {
