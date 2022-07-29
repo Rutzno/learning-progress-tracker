@@ -35,12 +35,6 @@ public class Student {
                 System.out.println("Incorrect points format.");
                 return false;
             }
-           /* for (int n : notes) {
-                if (n < 0) {
-                    System.out.println("Incorrect points format.");
-                    return;
-                }
-            }*/
             courses.put("Java", courses.getOrDefault("Java", 0) + notes[0]);
             courses.put("DSA", courses.getOrDefault("DSA", 0) + notes[1]);
             courses.put("Databases", courses.getOrDefault("Databases", 0) + notes[2]);
