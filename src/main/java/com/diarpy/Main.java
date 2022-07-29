@@ -71,7 +71,7 @@ public class Main {
             tempEmailList.add(message.getTo());
             System.out.println(message);
         });
-        System.out.printf("Total %d students have been notified", tempEmailList.size());
+        System.out.printf("Total %d students have been notified\n", tempEmailList.size());
         oldNotifications.addAll(messageList);
         messageList.clear();
     }
