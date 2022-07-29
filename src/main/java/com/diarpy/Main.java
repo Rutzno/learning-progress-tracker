@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author Mack_TB
  * @since 24/06/2022
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 public class Main {
@@ -16,6 +16,8 @@ public class Main {
     static String emailRegex = "[a-z.\\d]+@[a-z\\d]+\\.[a-z\\d]+";
     static Map<String, Student> studentMap = new LinkedHashMap<>();
     static Map<String, Course> courseMap = new LinkedHashMap<>();
+    static List<Message> messageList = new ArrayList<>();
+    static List<Message> oldNotifications = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Learning Progress Tracker");
@@ -38,16 +40,18 @@ public class Main {
         String input;
         do {
             input = scanner.nextLine();
-            if (input.equalsIgnoreCase("add students")) {
+            if (input.equals("add students")) {
                 addStudent();
-            } else if (input.equalsIgnoreCase("list")) {
+            } else if (input.equals("list")) {
                 list();
-            } else if (input.equalsIgnoreCase("add points")) {
+            } else if (input.equals("add points")) {
                 addPoints();
-            } else if (input.equalsIgnoreCase("find")) {
+            } else if (input.equals("find")) {
                 findStudent();
             } else if (input.equalsIgnoreCase("statistics")) {
                 statistics();
+            } else if (input.equalsIgnoreCase("notify")) {
+                notifyStudents();
             }  else if (input.equalsIgnoreCase("exit")) {
                 System.out.println("Bye!");
                 break;
@@ -59,6 +63,17 @@ public class Main {
                 System.out.println("Unknown command!");
             }
         } while (true);
+    }
+
+    private static void notifyStudents() {
+        Set<String> tempEmailList = new HashSet<>();
+        messageList.forEach(message -> {
+            tempEmailList.add(message.getTo());
+            System.out.println(message);
+        });
+        System.out.printf("Total %d students have been notified", tempEmailList.size());
+        oldNotifications.addAll(messageList);
+        messageList.clear();
     }
 
     private static void findStudent() {
@@ -74,10 +89,10 @@ public class Main {
                 Student student = studentMap.get(id);
                 System.out.printf("%s points: Java=%d; DSA=%d; Databases=%d; Spring=%d\n",
                         id,
-                        student.getCourses().get(courseMap.get("Java")),
-                        student.getCourses().get(courseMap.get("DSA")),
-                        student.getCourses().get(courseMap.get("Databases")),
-                        student.getCourses().get(courseMap.get("Spring"))
+                        student.getCourses().getOrDefault(courseMap.get("Java"), 0),
+                        student.getCourses().getOrDefault(courseMap.get("DSA"), 0),
+                        student.getCourses().getOrDefault(courseMap.get("Databases"), 0),
+                        student.getCourses().getOrDefault(courseMap.get("Spring"), 0)
                 );
             }
         }
@@ -130,6 +145,7 @@ public class Main {
                 System.out.println("Incorrect credentials.");
                 continue;
             }
+
             String firstName = tab[0];
             String email = tab[tab.length - 1];
             String lastName = credentials.substring(credentials.indexOf(" ") + 1, credentials.indexOf(email)-1);
@@ -147,6 +163,7 @@ public class Main {
                 }
                 Student student = new Student(firstName, lastName, email);
                 studentMap.put(String.valueOf(Student.getNumStudents()), student);
+                //numberOfStudents++;
                 System.out.println("The student has been added.");
             }
         }
@@ -200,6 +217,7 @@ public class Main {
                 for (Student student : students) {
                     float p = (float) student.getCourses().get(course) / course.getPoints() * 100;
                     BigDecimal bd = new BigDecimal(p).setScale(1, RoundingMode.HALF_UP);
+//                    String df = new DecimalFormat("#.#").format(bd);
                     String strNum = String.format("%.1f", bd).replace(",", ".");
                     System.out.printf("%d\t%d\t\t%s%%\n", student.getID(), student.getCourses().get(course), strNum);
                 }
