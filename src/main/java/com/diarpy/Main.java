@@ -40,7 +40,7 @@ public class Main {
             input = scanner.nextLine();
             if (input.equalsIgnoreCase("add students")) {
                 addStudent();
-            } else if (input.equals("list")) {
+            } else if (input.equalsIgnoreCase("list")) {
                 list();
             } else if (input.equals("add points")) {
                 addPoints();
