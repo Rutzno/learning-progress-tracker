@@ -35,12 +35,6 @@ public class Student {
                 System.out.println("Incorrect points format.");
                 return false;
             }
-           /* for (int n : notes) {
-                if (n < 0) {
-                    System.out.println("Incorrect points format.");
-                    return;
-                }
-            }*/
             int i = 0;
             for (Course course : Main.courseMap.values()) {
                 if (notes[i] != 0) {
