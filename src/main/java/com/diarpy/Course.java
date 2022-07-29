@@ -5,6 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Mack_TB
+ * @since 24/06/2022
+ * @version 1.0.5
+ */
+
 public class Course {
     private String name;
     private int points;
