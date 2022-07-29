@@ -173,13 +173,9 @@ public class Main {
     }
 
     private static void statistics() {
-        System.out.println("Type the name of a course to see details or 'back' to quit:");
-        System.out.println("Most popular: " + mostPopular());
-        System.out.println("Least popular: " + leastPopular());
-        System.out.println("Highest activity: " + highestActivity());
-        System.out.println("Lowest activity: " + lowestActivity());
-        System.out.println("Easiest course: " + easiestCourse());
-        System.out.println("Hardest course: " + hardestCourse());
+        for (String s : Arrays.asList("Type the name of a course to see details or 'back' to quit:", "Most popular: " + mostPopular(), "Least popular: " + leastPopular(), "Highest activity: " + highestActivity(), "Lowest activity: " + lowestActivity(), "Easiest course: " + easiestCourse(), "Hardest course: " + hardestCourse())) {
+            System.out.println(s);
+        }
         while (true) {
             String courseName = scanner.nextLine();
             if (courseName.equals("back")) {
