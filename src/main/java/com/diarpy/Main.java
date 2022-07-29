@@ -40,7 +40,7 @@ public class Main {
         String input;
         do {
             input = scanner.nextLine();
-            if (input.equals("add students")) {
+            if (input.equalsIgnoreCase("add students")) {
                 addStudent();
             } else if (input.equals("list")) {
                 list();
