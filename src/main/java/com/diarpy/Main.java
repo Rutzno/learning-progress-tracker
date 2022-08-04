@@ -44,7 +44,7 @@ public class Main {
     public static void processCommand() {
         String input;
         do {
-            input = scanner.nextLine();
+            input = input();
             if (input.equalsIgnoreCase("add students")) {
                 addStudent();
             } else if (input.equalsIgnoreCase("list")) {
@@ -85,7 +85,7 @@ public class Main {
     private static void findStudent() {
         System.out.println("Enter an id or 'back' to return:");
         while (true) {
-            String id = scanner.nextLine();
+            String id = input();
             if (id.equals("back")) {
                 break;
             }
@@ -107,7 +107,7 @@ public class Main {
     private static void addPoints() {
         System.out.println("Enter an id and points or 'back' to return:");
         while (true) {
-            String idnPoints = scanner.nextLine();
+            String idnPoints = input();
             if (idnPoints.equals("back")) {
                 break;
             }
@@ -141,7 +141,7 @@ public class Main {
     private static void addStudent() {
         System.out.println("Enter student credentials or 'back' to return:");
         while (true) {
-            String credentials = scanner.nextLine();
+            String credentials = input();
             if (credentials.equals("back")) {
                 System.out.printf("Total %d students have been added.\n", studentMap.size());
                 break;
@@ -204,7 +204,7 @@ public class Main {
         System.out.println("Easiest course: " + easiestCourse());
         System.out.println("Hardest course: " + hardestCourse());
         while (true) {
-            String courseName = scanner.nextLine();
+            String courseName = input();
             if (courseName.equals("back")) {
                 break;
             }
