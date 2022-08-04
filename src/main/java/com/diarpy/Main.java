@@ -25,6 +25,11 @@ public class Main {
         processCommand();
     }
 
+    private static String input() {
+        System.out.print("> ");
+        return scanner.nextLine();
+    }
+
     private static void createCourses() {
         Course course1 = new Course("Java", 600);
         Course course2 = new Course("DSA", 400);
