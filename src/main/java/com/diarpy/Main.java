@@ -86,7 +86,7 @@ public class Main {
         System.out.println("Enter an id or 'back' to return:");
         while (true) {
             String id = input();
-            if (id.equals("back")) {
+            if (id.equalsIgnoreCase("back")) {
                 break;
             }
             if (!studentMap.containsKey(id)) {
