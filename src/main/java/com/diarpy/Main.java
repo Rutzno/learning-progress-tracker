@@ -142,7 +142,7 @@ public class Main {
         System.out.println("Enter student credentials or 'back' to return:");
         while (true) {
             String credentials = input();
-            if (credentials.equals("back")) {
+            if (credentials.equalsIgnoreCase("back")) {
                 System.out.printf("Total %d students have been added.\n", studentMap.size());
                 break;
             }
