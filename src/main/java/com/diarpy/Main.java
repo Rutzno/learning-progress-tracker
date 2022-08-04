@@ -204,7 +204,7 @@ public class Main {
         System.out.println("Hardest course: " + hardestCourse());
         while (true) {
             String courseName = input();
-            if (courseName.equals("back")) {
+            if (courseName.equalsIgnoreCase("back")) {
                 break;
             }
             courseName = containsKey(courseName);
