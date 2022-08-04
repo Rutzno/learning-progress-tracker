@@ -169,7 +169,6 @@ public class Main {
                 }
                 Student student = new Student(firstName, lastName, email);
                 studentMap.put(String.valueOf(Student.getNumStudents()), student);
-                //numberOfStudents++;
                 System.out.println("The student has been added.");
             }
         }
