@@ -108,7 +108,7 @@ public class Main {
         System.out.println("Enter an id and points or 'back' to return:");
         while (true) {
             String idnPoints = input();
-            if (idnPoints.equals("back")) {
+            if (idnPoints.equalsIgnoreCase("back")) {
                 break;
             }
             try {
