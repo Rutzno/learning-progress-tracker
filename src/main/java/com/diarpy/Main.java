@@ -70,7 +70,7 @@ public class Main {
         messageList.forEach(message -> {
             tempEmailList.add(message.getTo());
             System.out.println(message);
-            System.out.println("---------------------------------------");
+            System.out.println("------------------------------------------------------------");
         });
         System.out.printf("Total %d students have been notified\n", tempEmailList.size());
         oldNotifications.addAll(messageList);
